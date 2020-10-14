@@ -1,6 +1,6 @@
 """
 Basic script to connect to Splunk via Python SDK and perform a query with Pandas output.
-More details here: 
+More details here: https://github.com/MHaggis/notes/blob/master/Splunk-Python-SDK/
 """
 
 # Built-in/Generic Imports
