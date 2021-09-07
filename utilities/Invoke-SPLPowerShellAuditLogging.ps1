@@ -239,10 +239,8 @@ function Invoke-SPLPowerShellAuditLogging {
 
                 $InputsConf=@"
 [WinEventLog://Microsoft-Windows-PowerShell/Operational]
-source = XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
-renderXml = 0
 disabled = false
-index = win   
+index = win 
 
 [monitor://$TransactionLogPath]
 sourcetype = powershell:transcript
