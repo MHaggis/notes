@@ -58,6 +58,7 @@ function Invoke-SPLPowerShellAuditLogging {
         .LINK
         Code originated from: https://raw.githubusercontent.com/timip/splunk/master/powershell_logging.ps1
         Reference: https://hurricanelabs.com/splunk-tutorials/how-to-use-powershell-transcription-logs-in-splunk/
+        Original script from Tim Ip - https://github.com/timip/splunk/blob/master/powershell_logging.ps1
 
 
         .NOTES
