@@ -113,3 +113,12 @@ I use PowerShell to download the the files:
 ```
 gc results.txt | % {iwr $_ -outf $(split-path $_ -leaf)}
 ```
+
+Simple grep
+
+
+
+```
+$csprofiles=~\Desktop\profiles\*.profile
+ Get-ChildItem -Path $csprofiles -Recurse | Select-String -Pattern 'set uri' -CaseSensitive | sort |  Get-Unique
+```
