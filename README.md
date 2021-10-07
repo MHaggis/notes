@@ -1,7 +1,3 @@
-# notes
-Full of public notes
-
-
 # Mining The Shadows with ZoidbergStrike: A Scanner for Cobalt Strike - SANS Threat Hunting Summit
 
 
