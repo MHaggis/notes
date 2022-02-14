@@ -72,6 +72,23 @@ Product         :
 ...
 ```
 
+## UAC Elevate
+The following are all auto-elevate binaries in System32 that could potentially be used to host a UAC bypass.
+
+Get-ExecutableManifest is in the NtObjectManager PowerShell module.
+
+`Install-Module -Name NtObjectManager`
+
+The following PowerShell code was used to obtain these files:
+
+```ls C:\Windows\System32\*.exe | Get-ExecutableManifest | ? { $_.AutoElevate -and ($_.ExecutionLevel -eq 'requireAdministrator') }```
+
+If any of these require GUI interaction, then they are unlikely to be abused in the wild.
+
+Additional references:
+- https://gist.github.com/Hackscode/0fc0dc46e2e3d1253535e79ffd0d0f26
+- https://gist.github.com/dezhub/c0fee68d1e06657a45ec39365362fca7
+
 ## Git Search
 
 
