@@ -56,6 +56,11 @@ copy-item $suricataPath\suricata.yaml -Destination $suricataPath\suricata.yaml.b
 Write-Host "$('[{0:HH:mm}]' -f (Get-Date)) Downloading custom yaml"
 Invoke-WebRequest -Uri https://gist.githubusercontent.com/MHaggis/777bf3578c26e69cadb57c62ffcbe66d/raw/dd5fe35752c5fa617800ea8e988cc5b3493a9daf/suricata.yaml -OutFile $suricataPath\suricata.yaml
 
+# Inputs.conf
+#[monitor://C:\Program Files\Suricata\log\eve.json]
+#host = splunk-nat-sec
+#sourcetype = suricata
+#index = network
 
 Write-Host "$('[{0:HH:mm}]' -f (Get-Date)) Starting Suricata"
 Set-Location $suricataPath
