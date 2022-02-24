@@ -240,6 +240,7 @@ function Invoke-SPLPowerShellAuditLogging {
 
                 $InputsConf=@"
 [WinEventLog://Microsoft-Windows-PowerShell/Operational]
+renderXml = 1
 disabled = false
 index = win 
 
