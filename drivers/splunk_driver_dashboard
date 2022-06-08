@@ -1,0 +1,146 @@
+{
+	"dataSources": {
+		"ds_search_1_new_new": {
+			"type": "ds.search",
+			"options": {
+				"query": "`wineventlog_system` EventCode=7045 Service_Type=\"kernel mode driver\" \n  | stats count min(_time) as firstTime max(_time) as lastTime by ComputerName EventCode Service_File_Name Service_Name Service_Start_Type Service_Type \n  | `security_content_ctime(firstTime)` \n  | `security_content_ctime(lastTime)`",
+				"queryParameters": {
+					"earliest": "-30d@d",
+					"latest": "now"
+				}
+			}
+		},
+		"ds_search_1_new": {
+			"type": "ds.search",
+			"options": {
+				"query": "| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)\n  as lastTime from datamodel=Endpoint.Processes where Processes.process_name=sc.exe\n  Processes.process=\"*kernel*\" by Processes.dest Processes.user Processes.parent_process_name Processes.process_name\n  Processes.process Processes.process_id Processes.parent_process_id\n  | `drop_dm_object_name(Processes)` \n  | `security_content_ctime(firstTime)`\n  | `security_content_ctime(lastTime)`",
+				"queryParameters": {
+					"earliest": "-30d@d",
+					"latest": "now"
+				}
+			}
+		},
+		"ds_search_1": {
+			"type": "ds.search",
+			"options": {
+				"query": "| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)\n    as lastTime FROM datamodel=Endpoint.Filesystem where Filesystem.file_name=\"*.sys\"  by Filesystem.dest Filesystem.file_create_time Filesystem.file_name Filesystem.file_path\n| `drop_dm_object_name(Filesystem)` \n| `security_content_ctime(firstTime)` \n| `security_content_ctime(lastTime)`",
+				"queryParameters": {
+					"earliest": "-7d@w0",
+					"latest": "@w0"
+				}
+			}
+		}
+	},
+	"visualizations": {
+		"viz_table_1_new_new": {
+			"type": "splunk.table",
+			"options": {
+				"count": 20,
+				"dataOverlayMode": "none",
+				"drilldown": "none",
+				"percentagesRow": false,
+				"rowNumbers": false,
+				"totalsRow": false,
+				"wrap": true
+			},
+			"dataSources": {
+				"primary": "ds_search_1_new_new"
+			},
+			"title": "Registered Kernel Drivers"
+		},
+		"viz_table_1_new": {
+			"type": "splunk.table",
+			"options": {
+				"count": 20,
+				"dataOverlayMode": "none",
+				"drilldown": "none",
+				"percentagesRow": false,
+				"rowNumbers": false,
+				"totalsRow": false,
+				"wrap": true
+			},
+			"dataSources": {
+				"primary": "ds_search_1_new"
+			},
+			"title": "Sc Create New Kernel Driver"
+		},
+		"viz_table_1": {
+			"type": "splunk.table",
+			"options": {
+				"count": 20,
+				"dataOverlayMode": "none",
+				"drilldown": "none",
+				"percentagesRow": false,
+				"rowNumbers": false,
+				"totalsRow": false,
+				"wrap": true
+			},
+			"dataSources": {
+				"primary": "ds_search_1"
+			},
+			"title": "New Sys Files"
+		}
+	},
+	"inputs": {
+		"input_global_trp": {
+			"type": "input.timerange",
+			"options": {
+				"token": "global_time",
+				"defaultValue": "-24h@h,now"
+			},
+			"title": "Global Time Range"
+		}
+	},
+	"layout": {
+		"type": "grid",
+		"options": {},
+		"structure": [
+			{
+				"item": "viz_table_1",
+				"type": "block",
+				"position": {
+					"x": 0,
+					"y": 0,
+					"w": 1200,
+					"h": 250
+				}
+			},
+			{
+				"item": "viz_table_1_new",
+				"type": "block",
+				"position": {
+					"x": 0,
+					"y": 250,
+					"w": 1200,
+					"h": 300
+				}
+			},
+			{
+				"item": "viz_table_1_new_new",
+				"type": "block",
+				"position": {
+					"x": 0,
+					"y": 550,
+					"w": 1200,
+					"h": 300
+				}
+			}
+		],
+		"globalInputs": [
+			"input_global_trp"
+		]
+	},
+	"title": "Windows Drivers",
+	"defaults": {
+		"dataSources": {
+			"ds.search": {
+				"options": {
+					"queryParameters": {
+						"latest": "$global_time.latest$",
+						"earliest": "$global_time.earliest$"
+					}
+				}
+			}
+		}
+	}
+}
