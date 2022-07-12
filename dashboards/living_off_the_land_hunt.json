@@ -1,0 +1,411 @@
+{
+	"dataSources": {
+		"ds_search_1_new_new_new_new_new_new_new_new_new_new": {
+			"type": "ds.search",
+			"options": {
+				"query": "`sysmon` $text_ZEk6hlk6$ EventCode IN (20,21)"
+			}
+		},
+		"ds_search_1_new_new_new_new_new_new_new_new_new": {
+			"type": "ds.search",
+			"options": {
+				"query": "`sysmon` $text_ZEk6hlk6$ EventCode IN (22) | stats values(answer) by process_name record_type QueryName QueryResults QueryStatus",
+				"queryParameters": {
+					"earliest": "-4h@m",
+					"latest": "now"
+				}
+			}
+		},
+		"ds_search_1_new_new_new_new_new_new_new_new": {
+			"type": "ds.search",
+			"options": {
+				"query": "`sysmon` $text_ZEk6hlk6$ EventCode IN (9)",
+				"queryParameters": {
+					"earliest": "-4h@m",
+					"latest": "now"
+				}
+			}
+		},
+		"ds_search_1_new_new_new_new_new_new_new": {
+			"type": "ds.search",
+			"options": {
+				"query": "`sysmon` $text_ZEk6hlk6$ EventCode IN (12,13,14)| stats values(registry_hive) by registry_key_name registry_value_name"
+			}
+		},
+		"ds_search_1_new_new_new_new_new_new": {
+			"type": "ds.search",
+			"options": {
+				"query": "`sysmon` $text_ZEk6hlk6$ EventCode IN (17,18) | stats values(pipe_name) by process_name"
+			}
+		},
+		"ds_search_1_new_new_new_new_new": {
+			"type": "ds.search",
+			"options": {
+				"query": "`sysmon` $text_ZEk6hlk6$ EventCode IN (11,2,23,26) | stats values(process_name) by file_path file_name file_hash"
+			}
+		},
+		"ds_search_1_new_new_new_new": {
+			"type": "ds.search",
+			"options": {
+				"query": "`sysmon` $text_ZEk6hlk6$ EventCode=3 | stats values(process_name) by DestinationPort DestinationHostname DestinationIp"
+			}
+		},
+		"ds_search_1_new_new_new": {
+			"type": "ds.search",
+			"options": {
+				"query": "`sysmon` $text_ZEk6hlk6$ EventCode=2 | stats values(process_name) by TargetFilename"
+			}
+		},
+		"ds_search_1_new_new": {
+			"type": "ds.search",
+			"options": {
+				"query": "`sysmon` $text_ZEk6hlk6$ EventCode=10 | stats values(GrantedAccess) by SourceImage TargetImage"
+			}
+		},
+		"ds_search_1_new": {
+			"type": "ds.search",
+			"options": {
+				"query": "`sysmon` $text_ZEk6hlk6$ EventCode=7 | stats values(process_name) AS \"Module Loaded\" by _time parent_process_name"
+			}
+		},
+		"ds_search_1": {
+			"type": "ds.search",
+			"options": {
+				"query": "`sysmon` $text_ZEk6hlk6$ EventCode=1 | stats values(CommandLine) by process_name parent_process_name"
+			}
+		}
+	},
+	"visualizations": {
+		"viz_event_1_new": {
+			"type": "splunk.table",
+			"options": {
+				"count": 20,
+				"list.drilldown": "none",
+				"list.wrap": 1,
+				"maxLines": 5,
+				"raw.drilldown": "full",
+				"rowNumbers": 0,
+				"table.drilldown": "all",
+				"table.sortDirection": "asc",
+				"table.wrap": 1,
+				"type": "list"
+			},
+			"dataSources": {
+				"primary": "ds_search_1_new_new_new_new_new_new_new_new_new_new"
+			},
+			"title": "WMI Events"
+		},
+		"viz_table_1_new_new_new_new_new_new_new_new": {
+			"type": "splunk.table",
+			"options": {
+				"count": 20,
+				"dataOverlayMode": "none",
+				"drilldown": "none",
+				"percentagesRow": false,
+				"rowNumbers": false,
+				"totalsRow": false,
+				"wrap": true
+			},
+			"dataSources": {
+				"primary": "ds_search_1_new_new_new_new_new_new_new_new_new"
+			},
+			"title": "DNS Query"
+		},
+		"viz_event_1": {
+			"type": "splunk.table",
+			"options": {
+				"count": 20,
+				"list.drilldown": "none",
+				"list.wrap": 1,
+				"maxLines": 5,
+				"raw.drilldown": "full",
+				"rowNumbers": 0,
+				"table.drilldown": "all",
+				"table.sortDirection": "asc",
+				"table.wrap": 1,
+				"type": "list"
+			},
+			"dataSources": {
+				"primary": "ds_search_1_new_new_new_new_new_new_new_new"
+			},
+			"title": "Raw Access Read"
+		},
+		"viz_table_1_new_new_new_new_new_new_new": {
+			"type": "splunk.table",
+			"options": {
+				"count": 20,
+				"dataOverlayMode": "none",
+				"drilldown": "none",
+				"percentagesRow": false,
+				"rowNumbers": false,
+				"totalsRow": false,
+				"wrap": true
+			},
+			"dataSources": {
+				"primary": "ds_search_1_new_new_new_new_new_new_new"
+			},
+			"title": "Registry"
+		},
+		"viz_table_1_new_new_new_new_new_new": {
+			"type": "splunk.table",
+			"options": {
+				"count": 20,
+				"dataOverlayMode": "none",
+				"drilldown": "none",
+				"percentagesRow": false,
+				"rowNumbers": false,
+				"totalsRow": false,
+				"wrap": true
+			},
+			"dataSources": {
+				"primary": "ds_search_1_new_new_new_new_new_new"
+			},
+			"title": "Named Pipes"
+		},
+		"viz_table_1_new_new_new_new_new": {
+			"type": "splunk.table",
+			"options": {
+				"count": 20,
+				"dataOverlayMode": "none",
+				"drilldown": "none",
+				"percentagesRow": false,
+				"rowNumbers": false,
+				"totalsRow": false,
+				"wrap": true
+			},
+			"dataSources": {
+				"primary": "ds_search_1_new_new_new_new_new"
+			},
+			"title": "File Create & Delete"
+		},
+		"viz_table_1_new_new_new_new": {
+			"type": "splunk.table",
+			"options": {
+				"count": 20,
+				"dataOverlayMode": "none",
+				"drilldown": "none",
+				"percentagesRow": false,
+				"rowNumbers": false,
+				"totalsRow": false,
+				"wrap": true
+			},
+			"dataSources": {
+				"primary": "ds_search_1_new_new_new_new"
+			}
+		},
+		"viz_table_1_new_new_new": {
+			"type": "splunk.table",
+			"options": {
+				"count": 20,
+				"dataOverlayMode": "none",
+				"drilldown": "none",
+				"percentagesRow": false,
+				"rowNumbers": false,
+				"totalsRow": false,
+				"wrap": true
+			},
+			"dataSources": {
+				"primary": "ds_search_1_new_new_new"
+			}
+		},
+		"viz_table_1_new_new": {
+			"type": "splunk.table",
+			"options": {
+				"count": 20,
+				"dataOverlayMode": "none",
+				"drilldown": "none",
+				"percentagesRow": false,
+				"rowNumbers": false,
+				"totalsRow": false,
+				"wrap": true
+			},
+			"dataSources": {
+				"primary": "ds_search_1_new_new"
+			},
+			"title": "Process Access"
+		},
+		"viz_table_1_new": {
+			"type": "splunk.table",
+			"options": {
+				"count": 20,
+				"dataOverlayMode": "none",
+				"drilldown": "none",
+				"percentagesRow": false,
+				"rowNumbers": false,
+				"totalsRow": false,
+				"wrap": true
+			},
+			"dataSources": {
+				"primary": "ds_search_1_new"
+			},
+			"title": "Module Load"
+		},
+		"viz_table_1": {
+			"type": "splunk.table",
+			"options": {
+				"count": 20,
+				"dataOverlayMode": "none",
+				"drilldown": "none",
+				"percentagesRow": false,
+				"rowNumbers": false,
+				"totalsRow": false,
+				"wrap": true
+			},
+			"dataSources": {
+				"primary": "ds_search_1"
+			},
+			"title": "Process Name"
+		}
+	},
+	"inputs": {
+		"input_global_trp": {
+			"type": "input.timerange",
+			"options": {
+				"token": "global_time",
+				"defaultValue": "-24h@h,now"
+			},
+			"title": "Global Time Range"
+		},
+		"input_ZByfYz95": {
+			"options": {
+				"defaultValue": "powershell.exe",
+				"token": "text_ZEk6hlk6"
+			},
+			"title": "Process Name",
+			"type": "input.text"
+		}
+	},
+	"layout": {
+		"type": "grid",
+		"options": {},
+		"structure": [
+			{
+				"item": "viz_table_1",
+				"type": "block",
+				"position": {
+					"x": 0,
+					"y": 0,
+					"w": 1200,
+					"h": 250
+				}
+			},
+			{
+				"item": "viz_table_1_new",
+				"type": "block",
+				"position": {
+					"x": 0,
+					"y": 250,
+					"w": 1200,
+					"h": 300
+				}
+			},
+			{
+				"item": "viz_table_1_new_new",
+				"type": "block",
+				"position": {
+					"x": 0,
+					"y": 550,
+					"w": 1200,
+					"h": 300
+				}
+			},
+			{
+				"item": "viz_table_1_new_new_new",
+				"type": "block",
+				"position": {
+					"x": 0,
+					"y": 850,
+					"w": 1200,
+					"h": 300
+				}
+			},
+			{
+				"item": "viz_table_1_new_new_new_new",
+				"type": "block",
+				"position": {
+					"x": 0,
+					"y": 1150,
+					"w": 1200,
+					"h": 300
+				}
+			},
+			{
+				"item": "viz_table_1_new_new_new_new_new",
+				"type": "block",
+				"position": {
+					"x": 0,
+					"y": 1450,
+					"w": 1200,
+					"h": 300
+				}
+			},
+			{
+				"item": "viz_table_1_new_new_new_new_new_new",
+				"type": "block",
+				"position": {
+					"x": 0,
+					"y": 1750,
+					"w": 1200,
+					"h": 300
+				}
+			},
+			{
+				"item": "viz_table_1_new_new_new_new_new_new_new",
+				"type": "block",
+				"position": {
+					"x": 0,
+					"y": 2050,
+					"w": 1200,
+					"h": 300
+				}
+			},
+			{
+				"item": "viz_event_1",
+				"type": "block",
+				"position": {
+					"x": 0,
+					"y": 2350,
+					"w": 1200,
+					"h": 300
+				}
+			},
+			{
+				"item": "viz_table_1_new_new_new_new_new_new_new_new",
+				"type": "block",
+				"position": {
+					"x": 0,
+					"y": 2650,
+					"w": 1200,
+					"h": 300
+				}
+			},
+			{
+				"item": "viz_event_1_new",
+				"type": "block",
+				"position": {
+					"x": 0,
+					"y": 2950,
+					"w": 1200,
+					"h": 300
+				}
+			}
+		],
+		"globalInputs": [
+			"input_global_trp",
+			"input_ZByfYz95"
+		]
+	},
+	"title": "Living Off The Land Hunt",
+	"defaults": {
+		"dataSources": {
+			"ds.search": {
+				"options": {
+					"queryParameters": {
+						"latest": "$global_time.latest$",
+						"earliest": "$global_time.earliest$"
+					}
+				}
+			}
+		}
+	}
+}
