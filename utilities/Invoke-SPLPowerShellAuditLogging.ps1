@@ -307,7 +307,7 @@ function Invoke-SPLPowerShellAuditLogging {
                 IF (!(Test-Path $TransactionLogPath)) {
                         New-Item -Path $TransactionLogPath  -ItemType Directory -Force | Out-Null
                 } ELSE {
-                        Write-Host "Unable to create directory $TransactionLogPath"
+                        Write-Host "$TransactionLogPath already exists"
                 }
 
                 IF (!(Test-Path $registryPath)) {
