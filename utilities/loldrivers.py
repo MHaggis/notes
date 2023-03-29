@@ -81,7 +81,7 @@ def new_loldriver_page():
 
     # Create the inputs
     yaml_template = create_yaml_template()
-    yaml_template['Name'] = st.text_input("Name", yaml_template['Name'])
+    yaml_template['Name'] = st.text_input("Driver Name", yaml_template['Name'])
     yaml_template['Author'] = st.text_input("Author", yaml_template['Author'])
     yaml_template['Created'] = st.text_input("Created", date.today().strftime('%Y-%m-%d'))
     yaml_template['MitreID'] = st.text_input("MitreID", "T1068")
@@ -92,11 +92,10 @@ def new_loldriver_page():
     updated_command = f'sc.exe create {yaml_template["Name"]} binPath=C:\\windows\\temp\\{yaml_template["Name"]} type=kernel\n    sc.exe start {yaml_template["Name"]}'
     yaml_template['Commands']['Command'] = st.text_area("Command", updated_command)
     yaml_template['Commands']['Description'] = st.text_area("Description", yaml_template['Commands']['Description'])
-    yaml_template['Commands']['Usecase'] = st.text_input("Usecase", yaml_template['Commands']['Usecase'])
+    yaml_template['Commands']['Usecase'] = st.text_input("Usecase", "Elevate privileges")
     yaml_template['Commands']['Privileges'] = st.text_input("Privileges", "kernel")
     yaml_template['Commands']['OperatingSystem'] = st.text_input("OperatingSystem", "Windows 10")
     yaml_template['Resources'][0] = st.text_input("Resources", yaml_template['Resources'][0])
-    yaml_template['driver_description'] = st.text_input("Driver Description", yaml_template['driver_description'])
 
     # When the user clicks the "Generate" button, display the generated YAML content
     if st.button("Generate"):
