@@ -74,6 +74,8 @@ from datetime import date
 
 def new_loldriver_page():
     st.title("Create a New LOLDriver")
+    st.subheader('Create a new LOLDriver yaml file quick and easy. Fill in as much details as possible and click Generate.')
+
 
     # Define the dropdown options for Verified and Category fields
     verified_options = ['TRUE', 'FALSE']
@@ -96,6 +98,10 @@ def new_loldriver_page():
     yaml_template['Commands']['Privileges'] = st.text_input("Privileges", "kernel")
     yaml_template['Commands']['OperatingSystem'] = st.text_input("OperatingSystem", "Windows 10")
     yaml_template['Resources'][0] = st.text_input("Resources", yaml_template['Resources'][0])
+    st.text('Binary Metadata')
+    yaml_template['KnownVulnerableSamples']['MD5'] = st.text_input("MD5", yaml_template['KnownVulnerableSamples']['MD5'])
+    yaml_template['KnownVulnerableSamples']['SHA1'] = st.text_input("SHA1", yaml_template['KnownVulnerableSamples']['SHA1'])
+    yaml_template['KnownVulnerableSamples']['SHA256'] = st.text_input("SHA256", yaml_template['KnownVulnerableSamples']['SHA256'])
 
     # When the user clicks the "Generate" button, display the generated YAML content
     if st.button("Generate"):
@@ -106,6 +112,8 @@ def new_loldriver_page():
 
 def main():
     st.set_page_config(page_title="LOLDriver")
+    
+
     pages = {
     "Create a New LOLDriver": new_loldriver_page,
     }
