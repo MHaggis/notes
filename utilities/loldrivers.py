@@ -20,7 +20,6 @@ def create_yaml_template():
             ('OperatingSystem', ''),
         ])),
         ('Resources', ['']),
-        ('driver_description', ''),
         ('Acknowledgement', collections.OrderedDict([
             ('Person', ''),
             ('Handle', ''),
