@@ -63,5 +63,6 @@ Invoke-WebRequest -Uri https://gist.githubusercontent.com/MHaggis/777bf3578c26e6
 #index = network
 
 Write-Host "$('[{0:HH:mm}]' -f (Get-Date)) Starting Suricata"
+$localIP = (Get-NetIPAddress -AddressFamily IPv4 | Where-Object { $_.InterfaceAlias -ne 'Loopback Pseudo-Interface 1' -and $_.IPAddress -notlike '169.*' }).IPAddress
 Set-Location $suricataPath
-.\suricata.exe -c suricata.yaml -i 10.0.1.14 
+.\suricata.exe -c suricata.yaml -i $localIP
