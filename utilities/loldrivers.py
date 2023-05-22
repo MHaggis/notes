@@ -25,24 +25,27 @@ def create_yaml_template():
             ('Handle', ''),
         ])),
         ('Detection', []),
-        ('KnownVulnerableSamples', collections.OrderedDict([
-            ('Filename', ''),
-            ('MD5', ''),
-            ('SHA1', ''),
-            ('SHA256', ''),
-            ('Signature', ''),
-            ('Date', ''),
-            ('Publisher', ''),
-            ('Company', ''),
-            ('Description', ''),
-            ('Product', ''),
-            ('ProductVersion', ''),
-            ('FileVersion', ''),
-            ('MachineType', ''),
-            ('OriginalFilename', ''),
-        ])),
+        ('KnownVulnerableSamples', [
+            collections.OrderedDict([
+                ('Filename', ''),
+                ('MD5', ''),
+                ('SHA1', ''),
+                ('SHA256', ''),
+                ('Signature', ''),
+                ('Date', ''),
+                ('Publisher', ''),
+                ('Company', ''),
+                ('Description', ''),
+                ('Product', ''),
+                ('ProductVersion', ''),
+                ('FileVersion', ''),
+                ('MachineType', ''),
+                ('OriginalFilename', ''),
+            ]),
+        ]),
     ])
     return template
+
 
 def represent_ordereddict(dumper, data):
     value_list = []
@@ -62,12 +65,19 @@ def generate_yaml():
         if isinstance(yaml_template[key], dict):
             for subkey in yaml_template[key]:
                 yaml_template[key][subkey] = st.session_state[f"{key}_{subkey}"]
-        elif isinstance(yaml_template[key], list):
-            yaml_template[key] = st.session_state[key].split("\n")
+        if isinstance(yaml_template[key], list):
+            if key == 'KnownVulnerableSamples':
+                for i, sample in enumerate(yaml_template[key]):
+                    for subkey in sample:
+                        yaml_template[key][i][subkey] = st.session_state[f"{key}_{subkey}".replace('-', '').strip()]
+            else:
+                yaml_template[key] = st.session_state[key].split("\n")
+
         else:
             yaml_template[key] = st.session_state[key]
 
     return yaml.dump(yaml_template)
+
 
 from datetime import date
 
@@ -90,7 +100,7 @@ def new_loldriver_page():
     yaml_template['Verified'] = st.selectbox("Verified", verified_options, index=1)
 
     # Update the Command field dynamically based on the Name field
-    updated_command = f'sc.exe create {yaml_template["Name"]} binPath=C:\\windows\\temp\\{yaml_template["Name"]} type=kernel\n    sc.exe start {yaml_template["Name"]}'
+    updated_command = f'sc.exe create {yaml_template["Name"]} binPath=C:\\windows\\temp\\{yaml_template["Name"]} type=kernel && sc.exe start {yaml_template["Name"]}'
     yaml_template['Commands']['Command'] = st.text_area("Command", updated_command)
     yaml_template['Commands']['Description'] = st.text_area("Description", yaml_template['Commands']['Description'])
     yaml_template['Commands']['Usecase'] = st.text_input("Usecase", "Elevate privileges")
@@ -98,9 +108,10 @@ def new_loldriver_page():
     yaml_template['Commands']['OperatingSystem'] = st.text_input("OperatingSystem", "Windows 10")
     yaml_template['Resources'][0] = st.text_input("Resources", yaml_template['Resources'][0])
     st.text('Binary Metadata')
-    yaml_template['KnownVulnerableSamples']['MD5'] = st.text_input("MD5", yaml_template['KnownVulnerableSamples']['MD5'])
-    yaml_template['KnownVulnerableSamples']['SHA1'] = st.text_input("SHA1", yaml_template['KnownVulnerableSamples']['SHA1'])
-    yaml_template['KnownVulnerableSamples']['SHA256'] = st.text_input("SHA256", yaml_template['KnownVulnerableSamples']['SHA256'])
+    yaml_template['KnownVulnerableSamples'][0]['MD5'] = st.text_input("MD5", yaml_template['KnownVulnerableSamples'][0]['MD5'])
+    yaml_template['KnownVulnerableSamples'][0]['SHA1'] = st.text_input("SHA1", yaml_template['KnownVulnerableSamples'][0]['SHA1'])
+    yaml_template['KnownVulnerableSamples'][0]['SHA256'] = st.text_input("SHA256", yaml_template['KnownVulnerableSamples'][0]['SHA256'])
+
 
     # When the user clicks the "Generate" button, display the generated YAML content
     if st.button("Generate"):
