@@ -1,1 +1,4 @@
 PyYAML
+iocextract
+sumy
+nltk
