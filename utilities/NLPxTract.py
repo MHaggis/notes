@@ -9,7 +9,14 @@ from sumy.nlp.tokenizers import Tokenizer
 from sumy.summarizers.lsa import LsaSummarizer as Summarizer
 from sumy.nlp.stemmers import Stemmer
 from sumy.utils import get_stop_words
+import nltk
 
+# Download 'punkt' if it's not already downloaded
+try:
+    nltk.data.find('tokenizers/punkt')
+except LookupError:
+    nltk.download('punkt')
+    
 LANGUAGE = "english"
 SENTENCES_COUNT = 10
 
