@@ -2,3 +2,5 @@ PyYAML
 iocextract
 sumy
 nltk
+uuid
+json
