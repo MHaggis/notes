@@ -3,4 +3,3 @@ iocextract
 sumy
 nltk
 uuid
-json
