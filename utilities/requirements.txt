@@ -3,3 +3,4 @@ iocextract
 sumy
 nltk
 uuid
+matplotlib
