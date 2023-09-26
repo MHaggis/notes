@@ -67,7 +67,7 @@ function Scan-Drivers {
     $drivers = Get-ChildItem -Path $DriverPath -Force -Recurse -File -Filter $FileFilter
 
     # Read the contents of the loldrivers.json file
-    $loldrivers = Get-Content -Path $loldriversFilePath | ConvertFrom-Json
+    $loldrivers = Get-Content -Path $loldriversFilePath | ConvertFrom-Json -AsHashTable
 
     Write-Host "Checking $($drivers.Count) drivers in $DriverPath against loldrivers.io JSON file" -ForegroundColor Yellow
 
