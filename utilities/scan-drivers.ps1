@@ -174,7 +174,7 @@ if ($Output -eq "GridView") {
     Write-Host "The scan results have been saved to $csvFileName" -ForegroundColor Green
 }
 
-Write-Host "Scanning after LOLDrivers completed" -ForegroundColor Green
+Write-Host "Scanning for LOLDrivers completed" -ForegroundColor Green
 Write-Host "Found $vulnerableCount Vulnerable Drivers" -ForegroundColor $(if ($vulnerableCount -gt 0) { "Red" } else { "Green" })
 
 }
