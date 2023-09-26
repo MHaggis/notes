@@ -75,30 +75,41 @@ function Scan-Drivers {
     $vulnerableCount = 0
 
 $hashes = @()
-
 foreach ($driver in $drivers) {
     try {
         # Calculate the SHA256 hash of the driver file
         $hash = Get-FileHash -Algorithm SHA256 -Path $driver.FullName -ErrorAction Stop | Select-Object -ExpandProperty Hash
         $status = "OK"
         $vulnerableSample = $loldrivers.KnownVulnerableSamples | Where-Object { $_.SHA256 -eq $hash }
-       if ($vulnerableSample) {
-        $status = "Vulnerable"
-        $vulnerableCount++
+        if ($vulnerableSample) {
+            $status = "Vulnerable"
+            $vulnerableCount++
         }
-        # Calculate the Authenticode SHA256 hash of the driver file
-        $authenticodeHash = (Get-AppLockerFileInformation -Path $driver.FullName).Hash
-        $authenticodeHash = $authenticodeHash -replace 'SHA256 0X', ''
         
+        # Check if the file has a valid certificate
+        $cert = $null
+        try {
+            $cert = New-Object System.Security.Cryptography.X509Certificates.X509Certificate2 $driver.FullName
+        } catch {
+            # Handle the error silently
+        }
+
+        if ($cert) {
+            $authenticodeHash = [BitConverter]::ToString($cert.GetCertHash("SHA256")).Replace("-", "")
+        } else {
+            $authenticodeHash = "No Certificate"
+        }
+
         # Check the Authenticode SHA256 hash against the drivers.json file
-        $authenticodeMatch = $loldrivers.KnownVulnerableSamples.Authentihash| Where-Object { $_.SHA256 -eq $authenticodeHash} 
+        $authenticodeMatch = $loldrivers.KnownVulnerableSamples.Authentihash | Where-Object { $_.SHA256 -eq $authenticodeHash } 
 
         if ($authenticodeMatch) {
-        $status = "Vulnerable"
-         if ($vulnerableSample -eq $null) {
+            $status = "Vulnerable"
+            if ($vulnerableSample -eq $null) {
                 $vulnerableCount++
+            }
         }
-        }
+        
         $hashes += [PSCustomObject]@{
             Driver = $driver.Name
             SHA256Hash = $hash
@@ -116,6 +127,7 @@ foreach ($driver in $drivers) {
         }
     }
 }
+
 
 # Display results in the console with color highlighting
 Write-Output ""
