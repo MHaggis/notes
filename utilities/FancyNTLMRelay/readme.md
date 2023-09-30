@@ -2,6 +2,8 @@
 
 This PowerShell script simulates an NTLM challenge-response interaction but doesn't perform genuine authentication.
 
+UPDATE: This script ended up being from Nishang - https://github.com/samratashok/nishang
+
 How It Works:
 
 - Listening for NTLM Headers: The script sets up an HTTP listener on localhost:8080. When a request with an Authorization NTLM header arrives, it logs the NTLM message.
