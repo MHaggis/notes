@@ -1,3 +1,6 @@
+# Tools are not mine, but I wrote this script years ago. 
+
+
 Write-Host "Run some Katz"
 
 $mimikatz_path = 'c:\temp\mimikatz.exe'
