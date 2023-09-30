@@ -7,6 +7,7 @@ The Scan-Drivers function will download a drivers.json file from loldrivers.io
 and use it to check for known vulnerabilities in drivers found in the 
 specified directory. It will display a summary in the console and also 
 display the details in a GridView or save to a CSV file based on the output parameter.
+Inspired by https://github.com/Ekitji/Files/blob/main/LOLDriverScanner.ps1 and other community contributed scripts (https://gist.github.com/IISResetMe/1a8353ae57710868b31b0e8d41683b95).
 
 .PARAMETER DriverPath
 The path to the directory where the drivers to be scanned are located. 
@@ -26,6 +27,9 @@ This parameter is used only when -Output "CSV" is selected.
 
 .EXAMPLE
 Scan-Drivers -DriverPath "C:\CustomPath" -FileFilter "*.sys" -Output "CSV" -OutputPath "C:\output"
+
+
+
 #>
 function Scan-Drivers {
     Param (
