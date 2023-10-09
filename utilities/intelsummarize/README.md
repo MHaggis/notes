@@ -25,3 +25,7 @@ Contributions are welcome. Please submit a pull request.
 ## License
 
 This project is licensed under the Apache 2.0 License.
+
+
+## CREDIT
+ALL THE CREDIT TO [@deadbits_ ](https://github.com/deadbits)
