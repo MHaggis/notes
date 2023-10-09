@@ -7,6 +7,7 @@ The Scan-Drivers function will download a drivers.json file from loldrivers.io
 and use it to check for known vulnerabilities in drivers found in the 
 specified directory. It will display a summary in the console and also 
 display the details in a GridView or save to a CSV file based on the output parameter.
+Inspired by https://github.com/Ekitji/Files/blob/main/LOLDriverScanner.ps1 and other community contributed scripts (https://gist.github.com/IISResetMe/1a8353ae57710868b31b0e8d41683b95).
 
 .PARAMETER DriverPath
 The path to the directory where the drivers to be scanned are located. 
@@ -26,6 +27,9 @@ This parameter is used only when -Output "CSV" is selected.
 
 .EXAMPLE
 Scan-Drivers -DriverPath "C:\CustomPath" -FileFilter "*.sys" -Output "CSV" -OutputPath "C:\output"
+
+
+
 #>
 function Scan-Drivers {
     Param (
@@ -67,7 +71,7 @@ function Scan-Drivers {
     $drivers = Get-ChildItem -Path $DriverPath -Force -Recurse -File -Filter $FileFilter
 
     # Read the contents of the loldrivers.json file
-    $loldrivers = Get-Content -Path $loldriversFilePath | ConvertFrom-Json
+    $loldrivers = Get-Content -Path $loldriversFilePath | ConvertFrom-Json -AsHashTable
 
     Write-Host "Checking $($drivers.Count) drivers in $DriverPath against loldrivers.io JSON file" -ForegroundColor Yellow
 
@@ -75,30 +79,41 @@ function Scan-Drivers {
     $vulnerableCount = 0
 
 $hashes = @()
-
 foreach ($driver in $drivers) {
     try {
         # Calculate the SHA256 hash of the driver file
         $hash = Get-FileHash -Algorithm SHA256 -Path $driver.FullName -ErrorAction Stop | Select-Object -ExpandProperty Hash
         $status = "OK"
         $vulnerableSample = $loldrivers.KnownVulnerableSamples | Where-Object { $_.SHA256 -eq $hash }
-       if ($vulnerableSample) {
-        $status = "Vulnerable"
-        $vulnerableCount++
+        if ($vulnerableSample) {
+            $status = "Vulnerable"
+            $vulnerableCount++
         }
-        # Calculate the Authenticode SHA256 hash of the driver file
-        $authenticodeHash = (Get-AppLockerFileInformation -Path $driver.FullName).Hash
-        $authenticodeHash = $authenticodeHash -replace 'SHA256 0X', ''
         
+        # Check if the file has a valid certificate
+        $cert = $null
+        try {
+            $cert = New-Object System.Security.Cryptography.X509Certificates.X509Certificate2 $driver.FullName
+        } catch {
+            # Handle the error silently
+        }
+
+        if ($cert) {
+            $authenticodeHash = [BitConverter]::ToString($cert.GetCertHash("SHA256")).Replace("-", "")
+        } else {
+            $authenticodeHash = "No Certificate"
+        }
+
         # Check the Authenticode SHA256 hash against the drivers.json file
-        $authenticodeMatch = $loldrivers.KnownVulnerableSamples.Authentihash| Where-Object { $_.SHA256 -eq $authenticodeHash} 
+        $authenticodeMatch = $loldrivers.KnownVulnerableSamples.Authentihash | Where-Object { $_.SHA256 -eq $authenticodeHash } 
 
         if ($authenticodeMatch) {
-        $status = "Vulnerable"
-         if ($vulnerableSample -eq $null) {
+            $status = "Vulnerable"
+            if ($vulnerableSample -eq $null) {
                 $vulnerableCount++
+            }
         }
-        }
+        
         $hashes += [PSCustomObject]@{
             Driver = $driver.Name
             SHA256Hash = $hash
@@ -116,6 +131,7 @@ foreach ($driver in $drivers) {
         }
     }
 }
+
 
 # Display results in the console with color highlighting
 Write-Output ""
@@ -162,7 +178,7 @@ if ($Output -eq "GridView") {
     Write-Host "The scan results have been saved to $csvFileName" -ForegroundColor Green
 }
 
-Write-Host "Scanning after LOLDrivers completed" -ForegroundColor Green
+Write-Host "Scanning for LOLDrivers completed" -ForegroundColor Green
 Write-Host "Found $vulnerableCount Vulnerable Drivers" -ForegroundColor $(if ($vulnerableCount -gt 0) { "Red" } else { "Green" })
 
 }
