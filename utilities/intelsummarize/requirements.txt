@@ -1,0 +1,14 @@
+streamlit
+openai
+tiktoken
+loguru
+pydantic
+unstructured
+#npm install -g @mermaid-js/mermaid-cli
+iocextract
+fpdf
+streamlit-mermaid
+datetime
+typing
+os
+subprocess
