@@ -22,21 +22,13 @@
    Clone the repository or download the `ScriptHostTest.ps1` script directly.
 
    ```powershell
-   git clone https://github.com/your-repo/ScriptHostTest.git
+   git clone https://github.com/MHaggis/notes.git
    ```
 
 2. **Navigate to the Script Directory:**
 
    ```powershell
-   cd path\to\utilities\ScriptHostTest
-   ```
-
-3. **Ensure Execution Policy Allows Script Execution:**
-
-   You might need to set the execution policy to allow running scripts.
-
-   ```powershell
-   Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
+   cd notes\utilities\ScriptHostTest
    ```
 
 ## 📁 Configuration
