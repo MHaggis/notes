@@ -1,0 +1,22 @@
+{
+    "UserPaths": [
+        "C:\\Users\\%USERNAME%\\Downloads",
+        "C:\\Users\\%USERNAME%\\Documents"
+    ],
+    "SystemPaths": [
+        "C:\\Windows\\Tasks",
+        "C:\\Windows\\tracing",
+        "C:\\Windows\\registration\\crmlog",
+        "C:\\Windows\\System32\\Tasks",
+        "C:\\Windows\\System32\\spool\\drivers\\color"
+    ],
+    "FileTypes": [
+        { "Ext": ".ps1", "Content": "$psContent" },
+        { "Ext": ".bat", "Content": "$batContent" },
+        { "Ext": ".cmd", "Content": "$batContent" },
+        { "Ext": ".vbs", "Content": "$vbsContent" },
+        { "Ext": ".js", "Content": "$jsContent" },
+        { "Ext": ".jse", "Content": "$jsContent", "Executor": "cscript.exe" },
+        { "Ext": ".hta", "Content": "$hta", "Executor": "mshta.exe" }
+    ]
+}
