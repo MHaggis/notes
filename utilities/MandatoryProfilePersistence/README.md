@@ -136,6 +136,8 @@ tags:
 - The marker file will trigger file monitoring detection
 - Always run **Cleanup** after testing
 
+Always run in a lab.
+
 ## MITRE ATT&CK
 
 - **Tactic**: Persistence
@@ -144,7 +146,7 @@ tags:
 
 ## Author
 
-Security Research - Atomic Testing Framework
+@MHaggis
 
 ## Version
 
